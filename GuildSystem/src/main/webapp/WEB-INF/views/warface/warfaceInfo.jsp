@@ -41,7 +41,7 @@ footer{
 </style>
 <script type="text/javascript">
 	function mainPage() {
-		location.href = "index.jsp";
+		location.href = "/guild/";
 	}
 	function loadDate() {
 		var datePicker = document.getElementById("datevalue");

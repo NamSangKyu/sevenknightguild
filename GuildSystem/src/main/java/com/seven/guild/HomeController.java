@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import seven.date.DateCustom;
 import seven.member.service.GuildService;
 import seven.member.vo.GuildMemberVO;
+import seven.member.vo.InstancePackage;
 import seven.spring.DIFactory;
 
 import com.email.EMail;
@@ -33,7 +34,7 @@ import com.email.EMail;
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(DIFactory.class);
+	AnnotationConfigApplicationContext context = InstancePackage.context;
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -61,11 +62,10 @@ public class HomeController {
 	
 	@RequestMapping(value="/warfaceView.do", method=RequestMethod.GET)
 	public String warfaceView(HttpServletRequest request){
-		System.out.println("warfaceInfo");
+		System.out.println("warfaceView");
 		String date = ((DateCustom) context.getBean("getDateCustom")).currentDate();
 		System.out.println(date);
-			
-			request.setAttribute("date", date);
+		request.setAttribute("date", date);
 		return "warface/warfaceInfo";
 	}
 	
@@ -79,7 +79,7 @@ public class HomeController {
 		System.out.println(date);
 		try {
 			List<HashMap<String, Object>> list = getGuildService().selectAllMemberDateWarface(date);
-			System.out.println(list);
+			System.out.println("warfaceInfo : "+list);
 			
 			request.setAttribute("list", list);
 			request.setAttribute("date", date);
@@ -97,7 +97,7 @@ public class HomeController {
 		System.out.println(date);
 		try {
 			 List<String> list = getGuildService().selectDateNotWarfaceMember(date);
-			System.out.println(list);
+			System.out.println("warfaceResult : "+list);
 			request.setAttribute("mlist", list);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -118,7 +118,7 @@ public class HomeController {
 		System.out.println("guildwarDetail");
 		try {
 			List<HashMap<String, Object>> list = getGuildService().selectGuildWarInfo(date);
-			System.out.println(list);
+			System.out.println("guildwarDetail : "+list);
 			request.setAttribute("list", list);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -135,7 +135,7 @@ public class HomeController {
 		System.out.println(date);
 		try {
 			List<String> list = getGuildService().selectDateNotGuildWar(date);
-			System.out.println(list);
+			System.out.println("guildwarResult : "+list);
 			request.setAttribute("mlist", list);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

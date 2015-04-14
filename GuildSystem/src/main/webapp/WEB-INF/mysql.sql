@@ -24,7 +24,7 @@ select * from guildmember  where dropdate is not null
 --현재 회원
 select * from guildmember  where dropdate is null
 
-
+select nick from guildmember where dropdate is null
 -- guild war
 CREATE  TABLE guildwar(
   code INT(16) NOT NULL,

@@ -14,6 +14,7 @@ import seven.date.DateCustom;
 import seven.member.dao.GuildDAO;
 import seven.member.db.ConnectionFactory;
 import seven.member.vo.GuildMemberVO;
+import seven.member.vo.InstancePackage;
 import seven.member.vo.MemberWarfaceScoreVO;
 
 public class GuildService {
@@ -158,39 +159,55 @@ public class GuildService {
 		return sqlSession.getMapper(GuildDAO.class).selectAllMemberDateWarface(date);
 	}
 	
-	public List<String> selectDateNotWarfaceMember(String date) throws Exception{
+	public ArrayList<String> selectDateNotWarfaceMember(String date) throws Exception{
 		List<HashMap<String, Object>> warfaceList = selectAllMemberDateWarface(date);
-		List<String> memberList = selectAllMemberNick();
+		List<String> memberList = InstancePackage.nickMemberList;
+		
+		ArrayList<String> resultList = new ArrayList<String>(); 
 		System.out.println("회원 명단 : "+memberList+"인원수:"+memberList.size());
 		System.out.println("공성참석 명단 : "+warfaceList);
 		for(int i=0;i<warfaceList.size();i++){
-			if(memberList.contains(warfaceList.get(i).get("nick"))){
-				memberList.remove(warfaceList.get(i).get("nick"));
+			if(!memberList.contains(warfaceList.get(i).get("nick"))){
+				resultList.add(memberList.get(i));
 			}
 		}
-		return memberList;
+		System.out.println("결과 : "+resultList);
+		return resultList;
 	}
 	
-	public List<String> selectAllMemberNick() throws Exception{
-		return sqlSession.getMapper(GuildDAO.class).selectAllMemberNick();		
+	public List<String> selectAllMemberNick(){
+		List<String> list = null;
+		try {
+			list = sqlSession.getMapper(GuildDAO.class).selectAllMemberNick();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		System.out.println("selectAllMemberNick : "+list);
+		return list;		
 	}
 	
 	public List<HashMap<String, Object>> selectGuildWarInfo(String date) throws Exception{
-			return sqlSession.getMapper(GuildDAO.class).selectGuildWarInfo(date);
+		List<HashMap<String, Object>> list = sqlSession.getMapper(GuildDAO.class).selectGuildWarInfo(date);
+		System.out.println("selectGuildWarInfo : "+list);
+		return list;
 	}
 
 	public List<String> selectDateNotGuildWar(String date) throws Exception {
 		// TODO Auto-generated method stub
 		List<HashMap<String, Object>> guildwarList = selectGuildWarInfo(date);
-		List<String> memberList = selectAllMemberNick();
+		List<String> memberList = InstancePackage.nickMemberList;
 		System.out.println("회원 리스트 : "+memberList);
 		System.out.println("참여 리스트 : " + guildwarList);
+		
+		ArrayList<String> resultList = new ArrayList<String>();
 		for(int i=0;i<guildwarList.size();i++){
 			if(memberList.contains(guildwarList.get(i).get("nick"))){
-				memberList.remove(guildwarList.get(i).get("nick"));
+				resultList.add(memberList.get(i));
 			}
 		}
-		return memberList;
+		System.out.println("결과 : "+resultList);
+		return resultList;
 	}
 	
 }
