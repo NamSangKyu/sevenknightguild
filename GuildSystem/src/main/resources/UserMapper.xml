@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="seven.member.dao.GuildDAO">
+	<resultMap type="seven.member.vo.GuildMemberVO" id="GuildMemberVO">
+		<result property="code" column="code"/>
+		<result property="nick" column="nick"/>
+		<result property="joinDate" column="joindate"/>
+		<result property="dropDate" column="dropdate"/>
+	</resultMap>
+
+	<select id="selectAllMember" resultMap="GuildMemberVO">
+		select * from guildmember
+	</select>
+	
+	<select id="selectMemberNick" parameterType="String" resultMap="GuildMemberVO">
+		select * from guildmember where nick = #{nick}
+	</select>
+	<select id="selectMemberCode" parameterType="int" resultMap="GuildMemberVO">
+		select * from guildmember where code = #{code}
+	</select>
+	
+	<insert id="insertMember" parameterType="seven.member.vo.GuildMemberVO">
+		insert into guildmember(nick, password, joindate) values(#{nick},#{password},#{joinDate})
+	</insert>
+	
+	<update id="dropMember" parameterType="seven.member.vo.GuildMemberVO">
+		update guildmember set dropdate = #{dropDate} where code = #{code}
+	</update>
+	
+	<select id="selectMemberMonthWarfaceScore" parameterType="hashmap" resultType="hashmap">
+		select score, dateinfo from warface w, guildmember m where w.code = #{code} AND dateinfo like #{date} AND w.code = m.code order by dateinfo asc
+	</select>
+	
+	<select id="selectMemberMonthWarfaceAverageScore" parameterType="hashmap" resultType="hashmap">
+		select w.code, nick, avg(score) as average from warface w, guildmember m where w.code = #{code} AND dateinfo like #{date} AND w.code = m.code
+	</select>
+	<select id="selectAllMemberMonthWarfaceAverageScore" parameterType="string" resultType="hashmap">
+		select w.code, nick, avg(score) as average from warface w, guildmember m where dateinfo like #{date} AND w.code = m.code AND m.dropdate is null group by w.code
+	</select>
+		
+	<select id="selectCurrentMember" resultType="int">
+		select code from guildmember  where dropdate is null
+	</select>
+	
+	<update id="createWarface">
+		CREATE  TABLE warface (code INT(16) NOT NULL, score INT(16) NULL DEFAULT 0, dateinfo DATE NOT NULL)
+	</update>
+	
+	<select id="selectAllMemberDateWarface" parameterType="string" resultType="hashmap">
+		select m.code, m.nick, score from warface w, guildmember m where dateinfo like #{date} AND w.code = m.code AND m.dropdate is null order by m.code asc
+	</select>
+	
+	<select id="selectAllMemberNick" resultType="string">
+		select nick from guildmember where dropdate is null
+	</select>
+	
+	
+	<select id="selectGuildWarInfo" parameterType="string" resultType="hashmap">
+		select m.code, m.nick, takepart from guildwar w, guildmember m where m.code = w.code AND dateinfo like #{date}
+	</select>
+</mapper>
