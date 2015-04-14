@@ -14,6 +14,7 @@ public class InstancePackage {
 	//길드원 닉네임 리스트
 	public final static List<String> nickMemberList = ((GuildService)context.getBean("getGuildService")).selectAllMemberNick();
 	
-	
+	//Test
+	String str;
 	
 }
