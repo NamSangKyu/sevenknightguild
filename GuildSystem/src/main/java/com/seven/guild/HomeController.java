@@ -173,7 +173,7 @@ public class HomeController {
 	}
 	@RequestMapping(value="/login.do",method=RequestMethod.POST )
 	public String masterLogin(HttpServletRequest request,@RequestParam("password") String pass){
-		if(pass.equals("역시역시!@#")){
+		if(pass.equals("역시역시!@#") || pass.equals("durtldurtl!@#")){
 			HttpSession session= request.getSession();
 			session.setAttribute("login", "access");
 			return "master/masterMain";
@@ -189,11 +189,21 @@ public class HomeController {
 	public String guildMemberList(HttpServletRequest request){
 		try {
 			List<GuildMemberVO> list = getGuildService().selectAllMember();
+			System.out.println("전체 길드원 정보 : "+list);
 			request.setAttribute("list", list);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "master/guildmemberlist";
+		return "master/guildmemberdetail";
+	}
+	
+	@RequestMapping(value="/deleteMember.do")
+	public String deleteMember(HttpServletRequest request){
+		String str[] = request.getParameterValues("code");
+		for(int i=0;i<str.length;i++)
+			System.out.println(str[i]);
+		
+		return guildMemberList(request);
 	}
 }

@@ -25,8 +25,11 @@
 		insert into guildmember(nick, password, joindate) values(#{nick},#{password},#{joinDate})
 	</insert>
 	
-	<update id="dropMember" parameterType="seven.member.vo.GuildMemberVO">
-		update guildmember set dropdate = #{dropDate} where code = #{code}
+	<update id="dropMember" parameterType="array">
+		update guildmember set dropdate = #{dropDate} where code in
+		<foreach collection="array" item="item" index="index" separator="," open="(" close=")">
+    		#{item[index]}
+		</foreach>
 	</update>
 	
 	<select id="selectMemberMonthWarfaceScore" parameterType="hashmap" resultType="hashmap">

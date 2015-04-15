@@ -22,7 +22,7 @@ drop table guildmember
 select * from guildmember  where dropdate is not null
 
 --현재 회원
-select * from guildmember  where dropdate is null
+select * from guildmember  where dropdate is null AND code in(2,3,4)
 
 select nick from guildmember where dropdate is null
 -- guild war

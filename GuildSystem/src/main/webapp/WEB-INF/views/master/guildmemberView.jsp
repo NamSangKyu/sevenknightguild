@@ -22,7 +22,7 @@
 	<header>길드원 리스트</header>
 	<section>
 		<article>
-			<iframe src="guildmemberlist.do" scrolling="yes">
+			<iframe src="guildmemberlist.do" scrolling="yes" style="width: 100%;">
 			</iframe>
 		</article>
 	</section>

@@ -18,5 +18,5 @@
 -Framework : Spring 3.1, Mybatis
 -DB : MySQL, MariaDB
 -Server : apache tomcat
--tool : sts
+-tool : sts(eclipse)
 -Language : HTML5/CSS, javascript, jdk 1.7

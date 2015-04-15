@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -17,8 +18,8 @@
 </script>
 </head>
 <body>
-<form action="">
-<table>
+<form action="deleteMember.do" method="get">
+<table style="width: 100%;" border="1">
 	<thead>
 		<tr>
 			<th>선택</th>
@@ -31,12 +32,12 @@
 			<tr>
 				<td><input type="checkbox" name="code" value="${m.code }"></td>
 				<td>${m.nick }</td>
-				<td>${m.score }</td>
+				<td>${m.joinDate }</td>
 			</tr>
 		</c:forEach>
 	</tbody>
 	<tfoot>
-		<tr><input type="submit" value="회원정리"></tr>
+		<tr><td colspan="3"><input type="submit" value="선택한 길드원 정리"></td></tr>
 	</tfoot>
 </table>
 </form>
