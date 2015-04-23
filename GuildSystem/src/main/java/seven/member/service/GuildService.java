@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import seven.date.DateCustom;
 import seven.member.dao.GuildDAO;
 import seven.member.db.ConnectionFactory;
 import seven.member.vo.GuildMemberVO;
@@ -76,21 +78,34 @@ public class GuildService {
 		int count =sqlSession .getMapper(GuildDAO.class).insertMember(vo);
 		if(count == 0)
 			throw new Exception("삽입 실패");
+		else{
+			System.out.println("정상 등록");
+		}
 		sqlSession.commit();
 		sqlSession.close();
 		return count;
 	}
 	/**
 	 * 회원 탈퇴
-	 * @param vo 해당 회원정보
+	 * @param list 해당 회원정보
 	 * @return 결과 1이면 성공 1이외면 이면 실패 및 오류
 	 * @throws Exception
 	 */
-	public int dropMember(GuildMemberVO vo) throws Exception{
+	public int dropMember(ArrayList<Integer> list) throws Exception{
 		SqlSession sqlSession = getSqlSession();
-		int count =sqlSession .getMapper(GuildDAO.class).dropMember(vo);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		AnnotationConfigApplicationContext context = InstancePackage.context;
+		DateCustom date = (DateCustom) context.getBean("getDateCustom");
+		map.put("list", list);
+		map.put("date", date.currentDate());
+		System.out.println("map 정보 : "+map);
+		int count =sqlSession .getMapper(GuildDAO.class).dropMember(map);
 		if(count == 0)
 			throw new Exception("삭제할 회원이 없습니다");
+		else{
+			System.out.println("삭제결과 : "+count);
+			InstancePackage.nickMemberList = selectAllMemberNick();
+		}
 		sqlSession.commit();
 		sqlSession.close();
 		return count;

@@ -1,6 +1,8 @@
 package com.seven.guild;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -172,15 +174,29 @@ public class HomeController {
 		return "master/masterLogin";
 	}
 	@RequestMapping(value="/login.do",method=RequestMethod.POST )
-	public String masterLogin(HttpServletRequest request,@RequestParam("password") String pass){
-		if(pass.equals("역시역시!@#") || pass.equals("durtldurtl!@#")){
-			HttpSession session= request.getSession();
-			session.setAttribute("login", "access");
-			return "master/masterMain";
+	public String masterLogin(HttpServletRequest request){
+		HttpSession session= request.getSession();
+		String str = (String) session.getAttribute("login");
+		if(str != null){
+			if(str.equals("access"))
+				return "master/masterMain";
 		}else{
-			return "master/masterLogin";
+			try{
+			String pass = request.getParameter("password");
+			if(pass .equals("역시역시!@#") || pass.equals("durtldurtl!@#")){
+				session.setAttribute("login", "access");
+				return "master/masterMain";
+			}
+			}catch(NullPointerException e){
+				System.out.println(e.getMessage());
+				return "master/masterLogin";
+			}
 		}
+		return "master/masterLogin";
 	}
+	
+	
+	
 	@RequestMapping(value="/guildmemberView.do")
 	public String guildMemberView(){
 		return "master/guildmemberView";
@@ -200,10 +216,49 @@ public class HomeController {
 	
 	@RequestMapping(value="/deleteMember.do")
 	public String deleteMember(HttpServletRequest request){
-		String str[] = request.getParameterValues("code");
-		for(int i=0;i<str.length;i++)
-			System.out.println(str[i]);
+		String code[] = request.getParameterValues("code");
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		for(int i=0;i<code.length;i++){
+			System.out.println(code[i]);
+			list.add(Integer.parseInt(code[i]));
+		}
+		
+		try {
+			getGuildService().dropMember(list);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return guildMemberList(request);
+	}
+	
+	@RequestMapping(value="logout.do")
+	public String logout(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		session.invalidate();
+		System.out.println("로그아웃");
+		return "index";
+	}
+	@RequestMapping(value="guildmemberInsert.do")
+	public String guildmemberInsertView(){
+		return "master/guildmemberInsert";
+	}
+	
+	@RequestMapping(value="memberInsert.do", method=RequestMethod.POST)
+	public String guildmemberInsert(HttpServletRequest request){
+		String nick = request.getParameter("nick") ;
+		int level = Integer.parseInt(request.getParameter("level"));
+		System.out.println("nick : "+nick);
+		System.out.println("level : "+level);
+		String date = ((DateCustom)context.getBean("getDateCustom")).currentDate();
+		try {
+			getGuildService().insertMember(new GuildMemberVO(nick, level, date));
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return masterLogin(request);
 	}
 }

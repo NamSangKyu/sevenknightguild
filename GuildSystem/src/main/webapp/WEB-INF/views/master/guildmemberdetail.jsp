@@ -16,8 +16,20 @@
 		history.back();
 	}
 </script>
+<style type="text/css">
+th{
+	font-size: 1.5em;
+}
+td{
+	font-size: 1.5em;
+}
+#code{
+	height: 100%;
+}
+</style>
 </head>
 <body>
+<div id="container">
 <form action="deleteMember.do" method="get">
 <table style="width: 100%;" border="1">
 	<thead>
@@ -25,21 +37,24 @@
 			<th>선택</th>
 			<th>닉네임</th>
 			<th>플렙</th>
+			<th>가입일</th>
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach var="m" items="${requestScope.list }">
 			<tr>
-				<td><input type="checkbox" name="code" value="${m.code }"></td>
-				<td>${m.nick }</td>
-				<td>${m.joinDate }</td>
+				<td align="center"><input type="checkbox" name="code" value="${m.code }" id="code"></td>
+				<td align="center">${m.nick }</td>
+				<td align="center">${m.level }</td>
+				<td align="center">${m.joinDate }</td>
 			</tr>
 		</c:forEach>
 	</tbody>
 	<tfoot>
-		<tr><td colspan="3"><input type="submit" value="선택한 길드원 정리"></td></tr>
+		<tr><td colspan="4" align="right"><input type="submit" value="선택한 길드원 정리" style="width: 40%;font-size: 1.2em;"></td></tr>
 	</tfoot>
 </table>
 </form>
+</div>
 </body>
 </html>

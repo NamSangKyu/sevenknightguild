@@ -11,13 +11,15 @@
                 , user-scalable=no
                 , initial-scale=1.0
                 , maximum-scale=1.0" />
-<script type="text/javascript">
-	function backPage() {
-		history.back();
-	}
-</script>
 </head>
 <body>
+<c:if test="${sessionScope.login !='access' }">
+<form name="login" action="login.do" method="post">
+<script type="text/javascript">
+	document.login.submit();
+</script>
+</form>
+</c:if>
 <div id="container">
 	<header>길드원 리스트</header>
 	<section>
@@ -27,7 +29,9 @@
 		</article>
 	</section>
 	<footer>
-		<input type="button" value="이전페이지" onclick="backPage()">
+	<form action="login.do" method="post">
+		<input type="submit" value="관리자메인">
+	</form>
 	</footer>
 </div>
 </body>

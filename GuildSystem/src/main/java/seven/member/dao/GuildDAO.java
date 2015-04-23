@@ -1,5 +1,6 @@
 package seven.member.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface GuildDAO {
 	public GuildMemberVO selectMemberNick(String nick) throws Exception;
 	public GuildMemberVO selectMemberCode(int code) throws Exception;
 	public int insertMember(GuildMemberVO vo) throws Exception;
-	public int dropMember(GuildMemberVO vo) throws Exception;
+	public int dropMember(HashMap<String, Object> map) throws Exception;
 	
 	public void createWarface() throws Exception;
 	public List<HashMap<String, Object>> selectMemberMonthWarfaceScore(HashMap<String, Object> map) throws Exception;

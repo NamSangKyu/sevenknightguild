@@ -2,19 +2,19 @@ USE mytest;
 CREATE  TABLE guildmember (
   code INT(8) NOT NULL AUTO_INCREMENT,
   nick VARCHAR(30) NOT NULL,
-  password VARCHAR(30) NOT NULL,
+  level INT(4) NOT NULL,
   joindate Date NOT NULL,
   dropdate Date NULL DEFAULT NULL,
   PRIMARY KEY (code))
 DEFAULT CHARACTER SET = utf8;
 
-insert into guildmember(nick, password, joindate) values('역시마스터','1234','2015-02-17');
-insert into guildmember(nick, password, joindate) values('역시상타규','1234','2015-02-17');
-insert into guildmember(nick, password, joindate) values('역시벌크','1234','2015-02-17');
-insert into guildmember(nick, password, joindate) values('역시귀족','1234','2015-02-17');
-insert into guildmember(nick, password, joindate) values('역시Coakin','1234','2015-02-17');
-insert into guildmember(nick, password, joindate) values('힘겨운하루','1234','2015-02-17');
-insert into guildmember(nick, password, joindate) values('엔카','1234','2015-02-17');
+insert into guildmember(nick, level, joindate) values('역시마스터',64,'2015-02-17');
+insert into guildmember(nick, level, joindate) values('역시상타규',54,'2015-02-17');
+insert into guildmember(nick, level, joindate) values('역시벌크',55,'2015-02-17');
+insert into guildmember(nick, level, joindate) values('역시귀족',50,'2015-02-17');
+insert into guildmember(nick, level, joindate) values('역시Coakin',44,'2015-02-17');
+insert into guildmember(nick, level, joindate) values('힘겨운하루',24,'2015-02-17');
+insert into guildmember(nick, level, joindate) values('엔카',30,'2015-02-17');
 
 drop table guildmember
 
@@ -50,7 +50,6 @@ insert into guildwar values(2,1,'2015-04-13');
 insert into guildwar values(3,1,'2015-04-13');
 insert into guildwar values(4,1,'2015-04-13');
 insert into guildwar values(7,1,'2015-04-13');
-
 
 
 

@@ -5,16 +5,16 @@ import java.util.Date;
 public class GuildMemberVO {
 	private int code;
 	private String nick;
-	private String password;
+	private int level;
 	private String joinDate;
 	private String dropDate;
 	
 	
 
-	public GuildMemberVO(String nick, String password, String joinDate) {
+	public GuildMemberVO(String nick, int level, String joinDate) {
 		super();
 		this.nick = nick;
-		this.password = password;
+		this.level = level;
 		this.joinDate = joinDate;
 	}
 
@@ -62,19 +62,19 @@ public class GuildMemberVO {
 	}
 
 	
-	public String getPassword() {
-		return password;
+	public int getLevel() {
+		return level;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	@Override
 	public String toString() {
-		return "GuildMemberVO [code=" + code + ", nick=" + nick + ", password="
-				+ password + ", joinDate=" + joinDate + ", dropDate="
-				+ dropDate + "]";
+		return "GuildMemberVO [code=" + code + ", nick=" + nick + ", level="
+				+ level + ", joinDate=" + joinDate + ", dropDate=" + dropDate
+				+ "]";
 	}
 
 	

@@ -11,29 +11,30 @@
 	</resultMap>
 
 	<select id="selectAllMember" resultMap="GuildMemberVO">
-		select * from guildmember
+		select * from guildmember where dropdate is null
 	</select>
 	
 	<select id="selectMemberNick" parameterType="String" resultMap="GuildMemberVO">
-		select * from guildmember where nick = #{nick}
+		select * from guildmember where nick = #{nick} AND dropdate is null
 	</select>
 	<select id="selectMemberCode" parameterType="int" resultMap="GuildMemberVO">
 		select * from guildmember where code = #{code}
 	</select>
 	
 	<insert id="insertMember" parameterType="seven.member.vo.GuildMemberVO">
-		insert into guildmember(nick, password, joindate) values(#{nick},#{password},#{joinDate})
+		insert into guildmember(nick, level, joindate) values(#{nick},#{level},#{joinDate})
 	</insert>
 	
-	<update id="dropMember" parameterType="array">
-		update guildmember set dropdate = #{dropDate} where code in
-		<foreach collection="array" item="item" index="index" separator="," open="(" close=")">
-    		#{item[index]}
+	<update id="dropMember" parameterType="hashmap">
+		update guildmember set dropdate=#{date} where code in
+		<foreach collection="list" open="(" close=")" separator="," index="index" item="item">
+			#{item}
 		</foreach>
 	</update>
 	
+	
 	<select id="selectMemberMonthWarfaceScore" parameterType="hashmap" resultType="hashmap">
-		select score, dateinfo from warface w, guildmember m where w.code = #{code} AND dateinfo like #{date} AND w.code = m.code order by dateinfo asc
+		select score, dateinfo from warface w, guildmember m where w.code = #{code} AND dateinfo like #{date} AND w.code = m.code order by dateinfo asc 
 	</select>
 	
 	<select id="selectMemberMonthWarfaceAverageScore" parameterType="hashmap" resultType="hashmap">
