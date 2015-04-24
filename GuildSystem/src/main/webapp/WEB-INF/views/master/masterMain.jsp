@@ -20,6 +20,17 @@
 			location.href = "guildmemberInsert.do";
 			
 		}
+		function warfaceView() {
+			location.href = "masterWarfaceView.do";
+		}
+		function guildwarView() {
+			location.href = "masterGuildwarView.do";
+		}
+		function yelloList() {
+			location.href = "yelloList.do";
+		}
+		
+		
 	
 	</script>
 </head>
@@ -37,9 +48,9 @@
 			<article>
 				<input type="button" value="길드원 리스트" onclick="guildMemberList()">
 				<input type="button" value="길드원 등록" onclick="guildMemberInsert()">
-				<input type="button" value="공성전 관리" onclick="">
-				<input type="button" value="길드전 관리" onclick="">
-				<input type="button" value="경고 리스트" onclick="">
+				<input type="button" value="공성전 관리" onclick="warfaceView()">
+				<input type="button" value="길드전 관리" onclick="guildwarView()">
+				<input type="button" value="경고 리스트" onclick="yellowList()">
 			</article>
 		</section>
 		<footer>

@@ -1,5 +1,7 @@
 package com.seven.guild;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +12,7 @@ import java.util.Locale;
 
 import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -261,4 +264,60 @@ public class HomeController {
 		}
 		return masterLogin(request);
 	}
+	
+	@RequestMapping(value="/masterWarfaceView.do", method=RequestMethod.GET)
+	public String masterWarfaceView(HttpServletRequest request){
+		System.out.println("masterWarfaceView");
+		String date = ((DateCustom) context.getBean("getDateCustom")).currentDate();
+		System.out.println(date);
+		request.setAttribute("date", date);
+		return "master/warfaceView";
+	}
+	
+	@RequestMapping(value="/warfaceInput.do", method=RequestMethod.GET)
+	public String masterWarfaceInfo(HttpServletRequest request){
+		System.out.println("warfaceInput");
+		String date = ((DateCustom) context.getBean("getDateCustom")).currentDate();
+		System.out.println(date);
+		request.setAttribute("date", date);
+		
+		HttpSession session = request.getSession();
+		try {
+			List<GuildMemberVO> list = getGuildService().selectAllMember();
+			session.setAttribute("list", list);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "master/warfaceInput";
+	}
+	
+	@RequestMapping(value="insertWarfaceScore.do")
+	public void insertWarfaceScore(HttpServletRequest request,HttpServletResponse response){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("code", Integer.parseInt(request.getParameter("code")));
+		map.put("score", Integer.parseInt(request.getParameter("score")));
+		map.put("date", request.getParameter("date"));
+		
+		System.out.println(map);
+		PrintWriter pw = null;
+		try {
+			getGuildService().insertWarfaceScore(map);
+			pw = response.getWriter();
+			pw.println(map);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			if(pw!=null)
+				pw.close();
+		}
+		
+		
+	}
+	
 }

@@ -257,5 +257,32 @@ public class GuildService {
 		System.out.println("결과 : "+resultList);
 		return resultList;
 	}
+	public void insertWarfaceScore(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		boolean temp = selectDateWarfaceMember(map);
+		SqlSession session =getSqlSession();
+		if(temp){
+			session.getMapper(GuildDAO.class).updateDateWarfaceMember(map);
+			System.out.println("업데이트 완료");
+		}else{
+			session.getMapper(GuildDAO.class).insertDateWarfaceMember(map);
+			System.out.println("삽입 완료");
+		}
+		session.commit();
+		session.close();
+		
+	}
+	
+	private boolean selectDateWarfaceMember(HashMap<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		SqlSession session = getSqlSession();
+		HashMap<String, Object> result = session.getMapper(GuildDAO.class).selectDateWarfaceMember(map);
+		System.out.println("selectDateWarfaceMember 결과: "+result);
+		session.close();
+		if(result == null)
+			return false;
+		else
+			return true;
+	}
 	
 }

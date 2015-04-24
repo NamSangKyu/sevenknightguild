@@ -64,4 +64,16 @@
 	<select id="selectGuildWarInfo" parameterType="string" resultType="hashmap">
 		select m.code, m.nick, takepart from guildwar w, guildmember m where m.code = w.code AND dateinfo like #{date}
 	</select>
+	
+	<select id="selectDateWarfaceMember" parameterType="hashmap" resultType="hashmap">
+		select * from warface where code = #{code} AND dateinfo like #{date}
+	</select>
+	
+	<insert id="insertDateWarfaceMember" parameterType="hashmap">
+		insert into warface(code, score, dateinfo) value(#{code},#{score},#{date})
+	</insert>
+	
+	<update id="updateDateWarfaceMember" parameterType="hashmap">
+		update warface set score = #{score} where code = #{code} AND dateinfo like #{date}
+	</update>
 </mapper>

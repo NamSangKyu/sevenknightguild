@@ -80,9 +80,9 @@ insert into warface values(5, 57700, '2015-04-10');
 insert into warface values(5, 75540, '2015-04-09');
 insert into warface values(7, 3900, '2015-04-12');
 
-select * from warface
+select * from warface where code = 1 AND dateinfo like '2015-04-25'
 
-delete from warface
+delete from warface where code = 1 AND dateinfo like '2015-04-25'
 
 --회원 공성 정보 조회 해당월
 select score, dateinfo from warface w, guildmember m where w.code = 1 AND dateinfo like '%-04-%' AND w.code = m.code order by dateinfo asc
