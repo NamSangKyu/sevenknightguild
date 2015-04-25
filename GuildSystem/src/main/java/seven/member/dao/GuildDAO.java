@@ -28,4 +28,6 @@ public interface GuildDAO {
 	public HashMap<String, Object> selectDateWarfaceMember(HashMap<String, Object> map) throws Exception;
 	public void updateDateWarfaceMember(HashMap<String, Object> map) throws Exception;
 	public void insertDateWarfaceMember(HashMap<String, Object> map) throws Exception;
+	public void insertDateGuildWar(HashMap<String, Object> map) throws Exception;
+	public void updateDateGuildWar(HashMap<String, Object> map) throws Exception;
 }

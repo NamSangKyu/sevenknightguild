@@ -51,6 +51,7 @@ insert into guildwar values(3,1,'2015-04-13');
 insert into guildwar values(4,1,'2015-04-13');
 insert into guildwar values(7,1,'2015-04-13');
 
+delete from guildwar
 
 
 CREATE  TABLE warface (

@@ -284,5 +284,44 @@ public class GuildService {
 		else
 			return true;
 	}
+	public void guildwarInsert(ArrayList<HashMap<String, Object>> list) throws Exception {
+		// TODO Auto-generated method stub
+		List<GuildMemberVO> member = selectAllMember();
+		String date = (String) list.get(0).get("date");
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("date", date);
+		map.put("takepart", 0);
+		
+		for(int i=0;i<list.size();i++){
+			for(int j=0;j<member.size();j++){
+				if(member.get(j).getCode()==(Integer) list.get(i).get("code")){
+					member.remove(j);
+					break;
+				}
+			}
+		}
+		for(int i=0;i<member.size();i++){
+			HashMap<String, Object> temp =new HashMap<String, Object>(map);
+			temp.put("code", member.get(i).getCode());
+			list.add(temp);
+		}
+		System.out.println("통합 : " + list);
+		
+		SqlSession session = getSqlSession();
+		List current = session.getMapper(GuildDAO.class).selectGuildWarInfo(date);
+		if(current.size() > 0){
+			for(int i=0;i<list.size();i++){
+				session.getMapper(GuildDAO.class).updateDateGuildWar(list.get(i));
+			}
+			System.out.println("길드전 정보 갱신");
+		}else{
+			for(int i=0;i<list.size();i++){
+				session.getMapper(GuildDAO.class).insertDateGuildWar(list.get(i));
+			}
+			System.out.println("길드전 정보 삽입");
+		}
+		session.commit();
+		session.close();
+	}
 	
 }

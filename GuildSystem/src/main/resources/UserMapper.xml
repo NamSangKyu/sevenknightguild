@@ -60,7 +60,6 @@
 		select nick from guildmember where dropdate is null
 	</select>
 	
-	
 	<select id="selectGuildWarInfo" parameterType="string" resultType="hashmap">
 		select m.code, m.nick, takepart from guildwar w, guildmember m where m.code = w.code AND dateinfo like #{date}
 	</select>
@@ -75,5 +74,12 @@
 	
 	<update id="updateDateWarfaceMember" parameterType="hashmap">
 		update warface set score = #{score} where code = #{code} AND dateinfo like #{date}
+	</update>
+	
+	<insert id="insertDateGuildWar" parameterType="hashmap">
+			insert into guildwar(code, takepart, dateinfo) value(#{code},#{takepart},#{date})
+	</insert>
+	<update id="updateDateGuildWar" parameterType="hashmap">
+		update guildwar set takepart = #{takepart} where code = #{code} AND dateinfo like #{date} 
 	</update>
 </mapper>

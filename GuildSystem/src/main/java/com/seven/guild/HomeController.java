@@ -319,5 +319,62 @@ public class HomeController {
 		
 		
 	}
+
+	@RequestMapping(value="/masterGuildwarView.do", method=RequestMethod.GET)
+	public String masterGuildwarView(HttpServletRequest request){
+		System.out.println("masterGuildwarView");
+		String date = ((DateCustom) context.getBean("getDateCustom")).currentDate();
+		System.out.println(date);
+		request.setAttribute("date", date);
+		return "master/guildwarView";
+	}
+	
+	@RequestMapping(value="/guildwarInput.do", method=RequestMethod.GET)
+	public String guildwarInput(HttpServletRequest request){
+		System.out.println("guildwarInput");
+		String date = ((DateCustom) context.getBean("getDateCustom")).currentDate();
+		System.out.println(date);
+		request.setAttribute("date", date);
+		HttpSession session = request.getSession();
+		try {
+			List<GuildMemberVO> list = getGuildService().selectAllMember();
+			session.setAttribute("list", list);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "master/guildwarInput";
+	}
+	
+	
+	@RequestMapping(value="guildwarInsert.do")
+	public void guildwarInsert(HttpServletRequest request, HttpServletResponse response){
+		System.out.println("guildwarInsert");
+		String date = request.getParameter("date");
+		String code[] = request.getParameterValues("code");
+		System.out.println(date);
+		System.out.println(Arrays.toString(code));
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String,Object>>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("date", date);
+		for(int i=0;i<code.length;i++){
+			list.add(new HashMap<String, Object>(map));
+			list.get(i).put("code", Integer.parseInt(code[i]));
+			list.get(i).put("takepart", 1);
+		}
+		System.out.println(list);
+		
+		try {
+			getGuildService().guildwarInsert(list);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	
+	
 	
 }
